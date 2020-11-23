@@ -51,7 +51,7 @@ func init() {
 	benchCmd.PersistentFlags().Uint64Var(&port, "port", 4000, "port of tidb cluster")
 	benchCmd.PersistentFlags().Uint64Var(&threads, "threads", 16, "port of tidb cluster")
 	benchCmd.PersistentFlags().StringVar(&recordDbDsn, "record-dsn", "", "dsn of database for storing test record")
-	benchCmd.PersistentFlags().IntVar(&intervalSecs, "interval", 10, "interval of metrics in seconds")
+	benchCmd.PersistentFlags().IntVar(&intervalSecs, "interval", -1, "interval of metrics in seconds")
 	benchCmd.PersistentFlags().StringArrayVar(&brArgs, "br-args", []string{}, "args of br restore")
 	benchCmd.PersistentFlags().StringVar(&prometheusAddr, "prometheus", "", "addr of prometheus")
 

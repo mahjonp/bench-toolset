@@ -80,9 +80,9 @@ func (s *Sysbench) parseLogFile() ([]*Record, error) {
 		}
 		avgLat := 1000 / tps * threads
 		records[i] = &Record{
-			Count:   tps,
-			Latency: &Latency{AvgInMs: avgLat, P99InMs: p99Lat},
-			Time:    time.Second,
+			Count:      tps,
+			AvgLatInMs: avgLat,
+			P99LatInMs: p99Lat,
 		}
 	}
 

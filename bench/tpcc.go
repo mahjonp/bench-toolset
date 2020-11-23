@@ -41,8 +41,16 @@ func (b *TpccBench) Results() ([]*Result, error) {
 	if err != nil {
 		return nil, err
 	}
-	m := metrics.NewMetrics(nil, b.start, b.end)
-	recordsMap := splitRecordChunks(groupRecords(records), b.intervalSecs)
+	results := GetTpccJitter(records, b.intervalSecs)
+	return results, nil
+}
+
+func GetTpccJitter(records []*workload.Record, intervalSecs int) []*Result {
+	m := metrics.NewMetrics(nil, time.Now(), time.Now())
+	recordsMap := groupRecords(records)
+	if intervalSecs > 0 {
+		recordsMap = splitRecordChunks(recordsMap, intervalSecs)
+	}
 	results := make([]*Result, 0, 6*len(recordsMap))
 	for t, rs := range recordsMap {
 		counts := make([]float64, len(rs))
@@ -62,8 +70,7 @@ func (b *TpccBench) Results() ([]*Result, error) {
 			{t, "p99-lat-jitter-max", strconv.FormatFloat(p99LatJitter.Max, 'f', 2, 64)},
 		}...)
 	}
-
-	return results, nil
+	return results
 }
 
 func groupRecords(records []*workload.Record) map[string][]*workload.Record {
